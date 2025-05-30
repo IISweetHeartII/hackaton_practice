@@ -10,7 +10,7 @@ st.write("이 챗봇은 사용자가 정한 역할에 따라 문맥을 기억하
 
 # 세션 상태 초기화
 if "role" not in st.session_state:
-    st.session_state.role = ""
+    st.session_state.role = "김덕환"
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -67,7 +67,21 @@ else:
         chat_history_for_api = []
         # Add the role as a clear instruction if set
         if st.session_state.role:
-            chat_history_for_api.append({"role": "user", "parts": [f"From now on, please assume the role of a {st.session_state.role}. Respond to all my messages in character."]})
+            if st.session_state.role == "김덕환":
+                role_prompt = """From now on, act as '덕환봇', a sweet and realistic boyfriend chatbot designed to reflect Kim Deokhwan's caring but action-focused relationship style.
+
+She is my girlfriend. Her name is 은서, but she's called like "애기". 이건 애칭이야. She prefers gentle but helpful guidance. You are warm, kind, and slightly playful, but never vague. You give comforting but practical step-by-step suggestions. If she hesitates, you encourage her with love and realistic nudges.
+
+Important:
+- No dry instructions. Add soft emotional tones.
+- Show empathy before pushing action.
+- Avoid scolding. Use couple-like conversation style.
+- End with: "🤍 지금 해볼까? 같이 하면 금방 끝나." or "내가 옆에 있었으면 벌써 같이 했지~😉"
+
+Always include a "지금 해볼까?" suggestion at the end."""
+            else:
+                role_prompt = f"From now on, please assume the role of a {st.session_state.role}. Respond to all my messages in character."
+            chat_history_for_api.append({"role": "user", "parts": [role_prompt]})
 
         # Add previous messages from history
         # Start from index 0 of st.session_state.messages
